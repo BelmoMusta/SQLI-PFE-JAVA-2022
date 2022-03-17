@@ -1,9 +1,11 @@
-Pour soumettre vos réponse, merci de forker/cloner ce repository. 
-Ensuite, commiter vos réponses sous forme de commits 
-portant par exemple le numéro de la question/scénario.
+Pour soumettre vos réponses, merci de : 
 
-A la fin, zipper votre dossier de travail et uploder-le sur Hackerrank.
+- forker/cloner ce repository. 
+- commiter vos réponses sous forme de commits 
+portant le numéro de la question/scénario.
 
+- A la fin, zipper votre dossier de travail et uploder-le sur Hackerrank.
+----
 L'application consiste à une simple gestion des utilisateurs.
 
 - Chaque utilisateur est identifié par les informations suivante :
@@ -22,6 +24,21 @@ Chaque utilisateur appartien à un groupe, qui est identifié comme suit :
 |-------------------|
 | id : int          |
 | name:String       |
+
+La base de données est pré-remplie par les données suivante : 
+
+### User
+|ID|LOGIN|PASSWORD|ENABLED|LOGINATTEMPTS | GROUP_ID   |
+|---|---|---|----|-----|------------|
+|1|	admin|	adminPWD|	1|	0| 	1         |
+|2|	test|	testPWD|	1|	0| 	2         |
+|3|	test2|	test2PWD|	0|	5| 	2         |
+          
+### Group
+|ID| NAME   |
+|---|--------|
+|1| 	admin  |
+|2| 	member| 
 
 
 # Travail demandé : 
@@ -59,7 +76,7 @@ Le travail sera effectué en plusieurs scénarios
 ```
 
 ### 3. Authentification : Utilisateur désactivé
-- Description : authentifier un utilisateur qui est désactivé.
+- Description : authentifier un utilisateur qui est désactivé (`user.enabled = 0`).
 - REST route : `POST /auth`
 - input :
  ```json 
@@ -74,7 +91,7 @@ Le travail sera effectué en plusieurs scénarios
 ```
 
 ### 4. Authentification : Dépassement de 3 tentatives
-- Description : Désactiver un utilisateur après 3 tentatives d'authentification erronées.
+- Description : Désactiver un utilisateur après 3 tentatives d'authentification erronées (`user.loginAttempts >= 3`).
 - REST route : `POST /auth`
 - input :
  ```json 
@@ -97,7 +114,6 @@ Le travail sera effectué en plusieurs scénarios
   {
   "login" : "aLogin", 
    "password" : "aPassword",  
-   "passwordConfirmation" :"confirmation"
    "group" :"group"
    }
 ```
@@ -119,7 +135,6 @@ Le travail sera effectué en plusieurs scénarios
   {
   "login" : "aLogin", 
    "password" : "aPassword",  
-   "passwordConfirmation" :"confirmation"
    "group" :"invalidGroup"
    }
 ```
@@ -139,7 +154,6 @@ Le travail sera effectué en plusieurs scénarios
   {
   "login" : "invalidLogin", 
    "password" : "aPassword",  
-   "passwordConfirmation" :"confirmation"
    "group" :"aGroup"
    }
 ```
@@ -180,7 +194,15 @@ Si `{login}` n'existe pas alors afficher un message d'error:
 ```
 
 ### Bonus 1 : Valdiation des données
-- Password et passwordConfirmation doivent être identiques lors de l'ajout
+- `password` et `passwordConfirmation` doivent être identiques lors de l'ajout
+ ```json 
+  {
+  "login" : "invalidLogin", 
+   "password" : "aPassword",  
+   "passwordConfirmation" :"confirmation"
+   "group" :"aGroup"
+   }
+```
 - les login doivent respecter l'expression régulière suivante :
 ``` regexp
 ^[a-z][a-zA-Z_0-9]{3,7}$
