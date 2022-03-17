@@ -8,7 +8,7 @@ portant le numéro de la question/scénario.
 ----
 L'application consiste à une simple gestion des utilisateurs.
 
-- Chaque utilisateur est identifié par les informations suivante :
+- Chaque utilisateur est identifié par les informations suivantes :
 
 | User                   |
 |------------------------|
@@ -18,7 +18,7 @@ L'application consiste à une simple gestion des utilisateurs.
  | enabled      : boolean |
  | loginAttempts : int    |
 
-Chaque utilisateur appartien à un groupe, qui est identifié comme suit : 
+Chaque utilisateur appartient à un groupe, qui est identifié comme suit : 
  
  | Group             |
 |-------------------|
@@ -60,7 +60,7 @@ Le travail sera effectué en plusieurs scénarios
   "group": "aGroup"
   }
 ```
-### 2. Authentification :Mot de passe ou login erronés
+### 2. Authentification : Mot de passe ou login erronés
 - Description : authentifier un utilisateur par login incorrect et/ou un mot de passe incorrect.
 - REST route : `POST /auth`
 - input :
@@ -166,9 +166,6 @@ Le travail sera effectué en plusieurs scénarios
 ```
 
 ### 8. Suppression de compte
-- Description : Un utilisateur appartenant au groupe `Admin` peut supprimer  
-  un utilisateur du groupe `Member`
-
 
 - REST route : `DELETE /user/{login}`
 - input :
@@ -178,14 +175,14 @@ Le travail sera effectué en plusieurs scénarios
 ```
 - output :
 
-Si `{login}` existe alors afficher un message de succès  : 
+Si `{login}` existe alors afficher un message de succès : 
 
 ```json 
 {
  "success" : "Login (login in input) is deleted",
   }
 ```
-Si `{login}` n'existe pas alors afficher un message d'error:
+Si `{login}` n'existe pas alors afficher un message d'erreur :
 
 ```json 
 {
@@ -203,7 +200,7 @@ Si `{login}` n'existe pas alors afficher un message d'error:
    "group" :"aGroup"
    }
 ```
-- les login doivent respecter l'expression régulière suivante :
+- les logins doivent respecter l'expression régulière suivante :
 ``` regexp
 ^[a-z][a-zA-Z_0-9]{3,7}$
 ```
