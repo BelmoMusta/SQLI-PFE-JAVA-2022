@@ -11,7 +11,7 @@
 	<groupId>org.sqli</groupId>
 	<artifactId>authentification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>data-clean-code</name>
+	<name>authentification</name>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
