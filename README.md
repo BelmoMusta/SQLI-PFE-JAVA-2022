@@ -186,7 +186,7 @@ Si `{login}` n'existe pas alors afficher un message d'erreur :
 
 ```json 
 {
- "success" : "Login (login in input) is not found",
+ "error" : "Login (login in input) is not found",
   }
 ```
 
