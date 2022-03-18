@@ -19,14 +19,31 @@ public class UserServiceImp implements UserService {
     @Override
     public UserDto checkAuthentification(User u) throws Exception {
         UserDto userDto = null;
-        List<User> user = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
-        if (user.size() == 1){
-            userDto = UserMapper.map(user.get(0));
+        List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
+
+        if (users.size() == 1){
+            userDto = UserMapper.map(users.get(0));
         }else{
             throw new Exception("Authentication error");
         }
-        //traitement
-        System.out.println(user);
         return userDto;
+    }
+
+    @Override
+    public UserDto checkAuthentificationAndDisable(User u) throws Exception {
+        UserDto userDto = null;
+        List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
+        
+        if (users.size() == 1){
+            User user = users.get(0);
+            if (!user.isEnabled()){
+                throw new Exception("User disabled");
+            }
+            userDto = UserMapper.map(user);
+
+        }else{
+            throw new Exception("Authentication error");
+        }
+        return null;
     }
 }
