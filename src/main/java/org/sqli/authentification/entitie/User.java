@@ -29,9 +29,16 @@ public class User {
     public User(String login, String password){
         this.login = login;
         this.password = password;
+        this.enabled = true;
+        this.loginAttempts = 0;
     }
 
     public User() {
+        this.enabled = true;
+        this.loginAttempts = 0;
+    }
 
+    public void loginAttemptsIncrement(){
+        this.loginAttempts++;
     }
 }

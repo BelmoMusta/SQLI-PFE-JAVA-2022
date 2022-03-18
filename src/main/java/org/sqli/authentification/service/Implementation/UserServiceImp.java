@@ -27,7 +27,7 @@ public class UserServiceImp implements UserService {
         return userDto;
     }*/
 
-    @Override
+   /* @Override
     public UserDto checkAuthentification(User u) throws Exception {
         UserDto userDto = null;
         List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
@@ -35,6 +35,26 @@ public class UserServiceImp implements UserService {
         User user = exist(users);
         enabled(user);
 
+        userDto = UserMapper.map(user);
+        return userDto;
+    }*/
+
+    @Override
+    public UserDto checkAuthentification(User u) throws Exception {
+        UserDto userDto = null;
+        User user = null;
+        List<User> users = userDao.findByLoginAndPassword(u.getLogin(),u.getPassword());
+
+        try{
+            user = exist(users);
+        }catch (Exception ex){
+            failedLogin(u);
+            throw ex;
+        }
+
+        enabled(user);
+
+        succesLogin(user); //set count to 0
         userDto = UserMapper.map(user);
         return userDto;
     }
@@ -54,5 +74,25 @@ public class UserServiceImp implements UserService {
         }else{
             throw new Exception("User disabled");
         }
+    }
+
+    private void failedLogin(User u) throws Exception{
+        List<User> users = userDao.findByLogin(u.getLogin());
+
+        User user = exist(users);
+
+        if (user.getLoginAttempts() >= 3){
+            user.setEnabled(false);
+            userDao.save(user);
+            throw new Exception("You have reached 3 failed authentication attempts, your account will be disabled");
+        }else{
+            user.loginAttemptsIncrement();
+            userDao.save(user);
+        }
+
+    }
+    public void succesLogin(User user){
+        user.setLoginAttempts(0);
+
     }
 }
