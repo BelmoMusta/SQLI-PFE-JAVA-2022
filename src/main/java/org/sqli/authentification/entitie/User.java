@@ -18,9 +18,11 @@ public class User {
     private String password;
     private boolean enabled;
 
+    @Column(name="loginattempts")
     private int loginAttempts;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
     private Group myGroup;
 
 

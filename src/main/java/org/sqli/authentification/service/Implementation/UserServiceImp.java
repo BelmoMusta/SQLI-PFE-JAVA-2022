@@ -16,34 +16,43 @@ public class UserServiceImp implements UserService {
     @Autowired
     public UserDao userDao;
 
+   /* @Override
+    public UserDto checkAuthentification(User u) throws Exception {
+        UserDto userDto = null;
+        List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
+
+        User user = exist(users);
+
+        userDto = UserMapper.map(user);
+        return userDto;
+    }*/
+
     @Override
     public UserDto checkAuthentification(User u) throws Exception {
         UserDto userDto = null;
         List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
 
-        if (users.size() == 1){
-            userDto = UserMapper.map(users.get(0));
-        }else{
-            throw new Exception("Authentication error");
-        }
+        User user = exist(users);
+        enabled(user);
+
+        userDto = UserMapper.map(user);
         return userDto;
     }
 
-    @Override
-    public UserDto checkAuthentificationAndDisable(User u) throws Exception {
-        UserDto userDto = null;
-        List<User> users = userDao.findUserByLoginAndPassword(u.getLogin(),u.getPassword());
-        
-        if (users.size() == 1){
-            User user = users.get(0);
-            if (!user.isEnabled()){
-                throw new Exception("User disabled");
-            }
-            userDto = UserMapper.map(user);
 
+    private User exist(List<User> users) throws Exception {
+        if (users.size() == 1){
+            return users.get(0);
         }else{
             throw new Exception("Authentication error");
         }
-        return null;
+    }
+
+    private User enabled(User user) throws Exception{
+        if (user.isEnabled()){
+            return user;
+        }else{
+            throw new Exception("User disabled");
+        }
     }
 }
