@@ -13,6 +13,8 @@ import java.util.Optional;
 @Service
 public class AuthentificationServiceImpl implements AuthentificationService {
 
+    public static final int NUMBER_LOGIN_ATTEMPTS = 3;
+
     @Autowired
     private UserDao userDao;
 
@@ -32,8 +34,13 @@ public class AuthentificationServiceImpl implements AuthentificationService {
             }
             if(!isPasswordCorrect(user.getPassword(),password))
             {
+                incrementloginAttempsFailure(user);
                 throw new UserException("Authentication error");
             }
+            if(loginAttemps(user,NUMBER_LOGIN_ATTEMPTS)){
+                throw new UserException("You have reached "+user.getLoginAttempts()+ "failed authentication attemps,your account will be disabled");
+            }
+
         }
         else{
            throw new UserException("Authentication error");
@@ -60,6 +67,20 @@ public class AuthentificationServiceImpl implements AuthentificationService {
     private boolean isUserAccountActivated(User user)
     {
         return user.isEnabled();
+    }
+
+
+    private boolean loginAttemps(User user,int attempsNumber)
+    {
+        return user.getLoginAttempts() >= attempsNumber;
+    }
+
+    private void  incrementloginAttempsFailure(User user){
+
+        user.setLoginAttempts(user.getLoginAttempts()+1);
+        userDao.save(user);
+
+
     }
 
 
