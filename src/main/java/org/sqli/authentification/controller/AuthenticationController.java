@@ -12,6 +12,7 @@ import org.sqli.authentification.dto.response.ResponseErrorMessage;
 import org.sqli.authentification.dto.response.ResponseMessage;
 import org.sqli.authentification.dto.response.UserResponseDto;
 import org.sqli.authentification.entitie.User;
+import org.sqli.authentification.exception.UserException;
 import org.sqli.authentification.service.AuthentificationService;
 
 @RestController
@@ -24,11 +25,15 @@ public class AuthenticationController {
     @PostMapping
     public ResponseEntity<Object> auth(@RequestBody UserRequestDto userRequestDto)
     {
-        User user = authentificationService.authenticate(userRequestDto.getLogin(), userRequestDto.getPassword());
-        if(user != null){
+        try{
+            User user = authentificationService.authenticate(userRequestDto.getLogin(), userRequestDto.getPassword());
             return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(new ResponseErrorMessage("Authentication error"), HttpStatus.BAD_REQUEST);
+        catch (UserException ex)
+        {
+            return new ResponseEntity<>(new ResponseErrorMessage(ex.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }
