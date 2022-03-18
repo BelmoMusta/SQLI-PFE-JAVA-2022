@@ -14,7 +14,7 @@ import javax.persistence.Id;
 public class Group {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE )
     private String id;
     private String name;
 }

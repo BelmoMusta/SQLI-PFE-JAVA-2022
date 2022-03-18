@@ -31,4 +31,11 @@ public class UserController {
         UserDto userDto =userService.checkAuthentification(user);
         return userDto;
     }
+
+    @PostMapping("/user")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto addUser(@RequestBody UserDto userDto) throws Exception {
+
+        return userService.createAccount(userDto);
+    }
 }

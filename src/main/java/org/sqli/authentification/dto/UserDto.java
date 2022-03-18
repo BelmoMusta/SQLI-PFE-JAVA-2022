@@ -5,10 +5,11 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-
-    private String login;
     private int id;
+    private String login;
     private String group;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password; //Client -> Server
 
 }

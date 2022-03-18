@@ -7,6 +7,6 @@ public interface UserService {
 
     public UserDto checkAuthentification(User u) throws Exception;
 
-
+    public UserDto createAccount(UserDto userDto) throws Exception;
 
 }

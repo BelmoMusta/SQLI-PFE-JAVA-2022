@@ -2,8 +2,10 @@ package org.sqli.authentification.service.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.sqli.authentification.dao.GroupDao;
 import org.sqli.authentification.dao.UserDao;
 import org.sqli.authentification.dto.UserDto;
+import org.sqli.authentification.entitie.Group;
 import org.sqli.authentification.entitie.User;
 import org.sqli.authentification.mapper.UserMapper;
 import org.sqli.authentification.service.UserService;
@@ -15,6 +17,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     public UserDao userDao;
+
+    @Autowired
+    public GroupDao groupDao;
 
    /* @Override
     public UserDto checkAuthentification(User u) throws Exception {
@@ -59,6 +64,18 @@ public class UserServiceImp implements UserService {
         return userDto;
     }
 
+    @Override
+    public UserDto createAccount(UserDto userDto) throws Exception {
+
+        if (!checkLoginNonExistance(userDto.getLogin())){
+            throw new Exception("Login already existe");
+        }
+        List<Group> groups = groupDao.findByName(userDto.getGroup());
+        User user = UserMapper.DtoToUser(userDto, groups.get(0));
+
+        return UserMapper.map(user);
+    }
+
 
     private User exist(List<User> users) throws Exception {
         if (users.size() == 1){
@@ -89,10 +106,16 @@ public class UserServiceImp implements UserService {
             user.loginAttemptsIncrement();
             userDao.save(user);
         }
-
     }
+
     public void succesLogin(User user){
         user.setLoginAttempts(0);
 
+    }
+
+    public boolean checkLoginNonExistance(String login){
+        List<User> users = userDao.findByLogin(login);
+
+        return users.size() == 0;
     }
 }
