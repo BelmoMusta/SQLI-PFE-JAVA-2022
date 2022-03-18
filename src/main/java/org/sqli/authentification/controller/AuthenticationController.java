@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.sqli.authentification.dto.request.UserRequestDto;
+import org.sqli.authentification.dto.response.ResponseErrorMessage;
 import org.sqli.authentification.dto.response.ResponseMessage;
 import org.sqli.authentification.dto.response.UserResponseDto;
 import org.sqli.authentification.entitie.User;
@@ -27,7 +28,7 @@ public class AuthenticationController {
         if(user != null){
             return new ResponseEntity<>(new UserResponseDto(user), HttpStatus.ACCEPTED);
         }
-        return new ResponseEntity<>(new ResponseMessage("Not Found User"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ResponseErrorMessage("Authentication error"), HttpStatus.BAD_REQUEST);
     }
 
 }

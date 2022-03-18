@@ -7,7 +7,6 @@ import lombok.*;
 @ToString
 public class ResponseMessage {
 
-    int code;
     String message;
 
     public ResponseMessage(String message)

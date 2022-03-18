@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.sqli.authentification.dao.GroupDao;
 import org.sqli.authentification.dao.UserDao;
 import org.sqli.authentification.entitie.User;
+import org.sqli.authentification.exception.UserException;
 
 import java.util.Optional;
 
@@ -41,9 +42,9 @@ public class AuthentificationServiceImpl implements AuthentificationService {
      * @param optUser
      * @return obj User or null
      */
-    private User isUserExist(String login){
+    private User isUserExist(String login) throws UserException{
         Optional<User> optUser =  userDao.findByLogin(login);
-        return optUser.orElse(null);
+        return optUser.orElseThrow(() -> new UserException("Authentication error"));
     }
 
 
